@@ -60,7 +60,7 @@
 </style>
 <script setup>
 import { MDBTable, MDBIcon } from "mdb-vue-ui-kit";
-import { useVolunteerStore } from "../stores/volunteer";
+import { useVolunteerStore } from "../../stores/volunteer";
 const volunteerStore = useVolunteerStore();
 </script>
 <script>

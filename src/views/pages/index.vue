@@ -8,8 +8,8 @@
 </template>
 <style></style>
 <script>
-import classTable from "/src/components/class.vue";
-import volunteer from "../../components/volunteer.vue";
+import classTable from "/src/components/imSystem/class.vue";
+import volunteer from "../../components/imSystem/volunteer.vue";
 export default {
   components: {
     classTable,
