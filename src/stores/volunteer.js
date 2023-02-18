@@ -19,6 +19,8 @@ export const useVolunteerStore = defineStore("volunteerList", {
         { id: 3, name: "Courtenay", sport: "volley" },
         { id: 4, name: "David", sport: "rugby" },
       ],
+      index: 0,
+      selected: "",
     };
   },
 });
