@@ -14,7 +14,8 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       token: "",
-      userData: [],
+      username: "",
+      permission: 0,
     };
   },
 });

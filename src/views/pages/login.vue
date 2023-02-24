@@ -65,7 +65,35 @@
 </style>
 <script setup>
 import { useUserStore } from "../../stores/user";
+import axios from "axios";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+const router = useRouter();
 const userStore = useUserStore();
+const account = ref("");
+const password = ref("");
+// const props = defineProps(["account", "password"]);
+// const emit = defineEmits(["update:account", "update:password"]);
+function submit() {
+  axios
+    .post("/teacher/login", {
+      account: account.value,
+      password: password.value,
+    })
+    .then((data) => {
+      console.log(data);
+      userStore.token = data.data.access_token;
+      userStore.username = data.data.user.name;
+      userStore.permission = data.data.user.permission;
+      router.push({ path: "index" });
+      // this.$router.push("/index");
+    })
+    .catch(function (error) {
+      if (error.response.data.error == "Unauthorized") {
+        alert("帳號或密碼錯誤!");
+      }
+    });
+}
 </script>
 
 <script>
@@ -73,24 +101,6 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    submit: function () {
-      this.$http
-        .post("/teacher", {
-          account: this.account,
-          password: this.password,
-        })
-        .then((data) => {
-          console.log(data.data[0].msg);
-          // this.useUserStore.token = data.data[0].msg;
-          if (data.data[0].msg == "success") {
-            this.$router.push("/index");
-          }
-        })
-        .catch(function (error) {
-          alert(error.response.data.error);
-        });
-    },
-  },
+  methods: {},
 };
 </script>

@@ -5,10 +5,11 @@ import Layout from "/src/layout/layout.vue";
 import home from "/src/views/pages/home.vue";
 import login from "/src/views/pages/login.vue";
 import index from "/src/views/pages/index.vue";
+import { useUserStore } from "../stores/user";
 
 const router = createRouter({
-  // history: createWebHistory(import.meta.env.BASE_URL),
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(),
   routes: [
     {
       path: "/",
@@ -36,4 +37,12 @@ const router = createRouter({
   ],
 });
 
+router.beforeResolve((to) => {
+  const userStore = useUserStore();
+  if (to.name == "index" && userStore.token == "") {
+    return { name: "login" };
+  } else {
+    return true;
+  }
+});
 export default router;

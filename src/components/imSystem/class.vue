@@ -3,7 +3,7 @@
     <div class="card-body">
       <h3 class="text-center">{{ msg }}</h3>
       <hr />
-      <MDBTable striped>
+      <MDBTable striped sm class="text-center">
         <thead>
           <tr>
             <th>
@@ -20,26 +20,62 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+          <tr
+            v-for="(item, key) in classStore.classList.slice(
+              pageStart,
+              pageStart + offset
+            )"
+          >
+            <td></td>
+            <td>{{ item.course }}</td>
+            <td>{{ item.outkind }}</td>
+            <td>{{ item.kind }}</td>
+            <td>{{ item.getyear }}</td>
+            <td>{{ item.curriculum }}</td>
+            <td>{{ item.kindyear }}</td>
+            <td>{{ item.creditUP }}/{{ item.creditDN }}</td>
+            <td>{{ item.hourUP }}/{{ item.hourTUP }}</td>
           </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr></tbody
-      ></MDBTable>
+        </tbody>
+      </MDBTable>
     </div>
+    <paginate
+      v-model="page"
+      :page-count="classStore.totalPages"
+      :page-range="5"
+      :click-handler="setPage(page)"
+      :prev-text="'&laquo;'"
+      :next-text="'&raquo;'"
+      :container-class="pagination"
+      class="mx-auto"
+    >
+    </paginate>
   </div>
 </template>
 <script setup>
 import { MDBTable } from "mdb-vue-ui-kit";
+import { useClassStore } from "../../stores/class";
+import axios from "axios";
+import { computed, ref } from "vue";
+import Paginate from "vuejs-paginate-next";
+const classStore = useClassStore();
+const currentPage = ref(1);
+const page = ref(1);
+const offset = 25;
+axios
+  .post("/classQuery")
+  .then((data) => {
+    classStore.classList = data.data;
+  })
+  .catch(function (error) {});
+
+function setPage(idx) {
+  currentPage.value = idx;
+}
+
+const pageStart = computed(() => {
+  return (currentPage.value - 1) * offset;
+});
 </script>
 <script>
 export default {
@@ -47,6 +83,8 @@ export default {
   data: () => {
     return {};
   },
+
+  method: {},
   props: ["msg"],
 };
 </script>
