@@ -105,17 +105,17 @@ export default {
   methods: {
     handleFileUpload: function () {
       this.file = this.$refs.file.files[0];
+      console.log(this.$refs.file.files[0]);
       const form = new FormData();
       form.append("file", this.file);
       this.$http
-        .post("/classImport", {
-          file: form,
+        .post("/classImport", form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((data) => {
-          console.log(data.data);
-          if (data.data.message == "User successfully registered") {
-            alert("新增成功!");
-          }
+          alert(data.data[0].msg + "!");
         })
         .catch(function (error) {
           const error_message = JSON.parse(error.response.data);
