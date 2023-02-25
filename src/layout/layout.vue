@@ -3,7 +3,7 @@
 
   <Select class="mt-2 mx-2" />
 
-  <div class="row mt-3 mx-2">
+  <div class="row mt-3 mx-2 mb-4">
     <RouterView />
   </div>
 </template>
@@ -13,9 +13,5 @@
     padding-right: 0 !important;
     padding-left: 0 !important;
   }
-}
-.appMt {
-  margin: 0 !important;
-  width: 100%;
 }
 </style>

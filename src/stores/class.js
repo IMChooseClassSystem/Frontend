@@ -5,6 +5,7 @@ export const useClassStore = defineStore("classList", {
   state: () => {
     return {
       classList: [],
+      kindList: [],
     };
   },
   getters: {

@@ -1,4 +1,13 @@
 <template>
+  <MDBBtn
+    class="mx-3"
+    size="sm"
+    color="primary"
+    v-show="userStore.permission == 0"
+    href="#teacherAdmin"
+    data-bs-toggle="modal"
+    >新增/查詢教師密碼
+  </MDBBtn>
   <div
     class="modal fade"
     id="teacherAdmin"
@@ -29,6 +38,12 @@
           </div>
           <MDBInput label="教師帳號" v-model="teacherAccount" class="mb-4" />
           <MDBInput label="教師密碼" v-model="teacherPassword" />
+
+          <select class="form-select mt-4" v-model="permission">
+            <option value="none" selected disabled>系統權限</option>
+            <option value="1">教師</option>
+            <option value="0">系統管理者</option>
+          </select>
         </div>
         <div class="modal-footer">
           <button
@@ -47,25 +62,31 @@
     </div>
   </div>
 </template>
-<script setup>
-import { MDBInput } from "mdb-vue-ui-kit";
-</script>
 
 <script>
 export default {
   name: "teacherAdmin",
   data: () => {
-    return { modalShow: true };
+    return {
+      modalShow: true,
+      teacherAccount: "",
+      teacherPassword: "",
+      teacherName: "",
+      permission: "",
+    };
   },
 
   methods: {
     addTeacher: function () {
+      if (this.permission == "none") {
+        this.permission = 1;
+      }
       this.$http
         .post("/teacher/register", {
           account: this.teacherAccount,
           password: this.teacherPassword,
           name: this.teacherName,
-          permission: 1,
+          permission: this.permission,
         })
         .then((data) => {
           if (data.data.message == "User successfully registered") {
@@ -81,6 +102,17 @@ export default {
         });
     },
   },
+  created() {
+    this.permission = "none";
+  },
   props: [],
 };
+</script>
+<script setup>
+import { MDBBtn, MDBInput } from "mdb-vue-ui-kit";
+import { ref } from "vue";
+import { useUserStore } from "../../stores/user";
+
+const userStore = useUserStore();
+const dropdown = ref(false);
 </script>

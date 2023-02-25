@@ -16,6 +16,8 @@ export const useUserStore = defineStore("user", {
       token: "",
       username: "",
       permission: 0,
+      teacherID: 0,
+      adminShow: true,
     };
   },
 });

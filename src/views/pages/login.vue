@@ -58,10 +58,6 @@
 .read-the-docs {
   color: #888;
 }
-.appMt {
-  margin: 0 auto;
-  align-items: center;
-}
 </style>
 <script setup>
 import { useUserStore } from "../../stores/user";
@@ -81,10 +77,13 @@ function submit() {
       password: password.value,
     })
     .then((data) => {
-      console.log(data);
       userStore.token = data.data.access_token;
       userStore.username = data.data.user.name;
       userStore.permission = data.data.user.permission;
+      userStore.teacherID = data.data.user.id;
+      if (data.data.user.permission == "1") {
+        userStore.adminShow = false;
+      }
       router.push({ path: "index" });
       // this.$router.push("/index");
     })

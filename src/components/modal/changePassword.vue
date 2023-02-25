@@ -38,8 +38,8 @@
               <input
                 class="form-control"
                 type="password"
-                id="MDBInput-298797"
-              /><label class="form-label" for="MDBInput-298797"
+                id="newPassword"
+              /><label class="form-label" for="newPassword"
                 >設定您的新密碼</label
               ><!----><!----><!----><!---->
               <div class="form-notch">

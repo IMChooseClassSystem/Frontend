@@ -12,45 +12,7 @@
         教師授課意願系統
       </a>
       <div class="d-flex align-items-center">
-        <div class="dropdown">
-          <button
-            class="btn btn-primary dropdown-toggle btn-sm"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            匯入檔案
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <button
-                class="dropdown-item"
-                type="button"
-                @click="$refs.file.click()"
-              >
-                課程資料
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item" type="button">最終授課資料</button>
-            </li>
-          </ul>
-        </div>
-        <input
-          ref="file"
-          type="file"
-          class="d-none"
-          v-on:change="handleFileUpload()"
-        />
-        <MDBBtn
-          class="mx-3"
-          size="sm"
-          color="primary"
-          v-show="userStore.permission == 0"
-          href="#teacherAdmin"
-          data-bs-toggle="modal"
-          >新增/查詢教師密碼
-        </MDBBtn>
+        <uploadFile></uploadFile>
         <teacherAdmin></teacherAdmin>
         <MDBDropdown v-model="dropdown">
           <MDBDropdownToggle
@@ -59,11 +21,24 @@
             @click="dropdown = !dropdown"
             >{{ userStore.username }}
           </MDBDropdownToggle>
-          <MDBDropdownMenu>
+          <MDBDropdownMenu
+            ><MDBDropdownItem
+              href="#"
+              @click="userStore.adminShow = false"
+              v-show="(userStore.permission == 0) & userStore.adminShow"
+              >切換教師畫面</MDBDropdownItem
+            >
+            <MDBDropdownItem
+              href="#"
+              @click="userStore.adminShow = true"
+              v-show="(userStore.permission == 0) & !userStore.adminShow"
+              >切換管理畫面</MDBDropdownItem
+            >
             <MDBDropdownItem href="#changePassword" data-bs-toggle="modal"
               >更改密碼
             </MDBDropdownItem>
-            <MDBDropdownItem :to="{ name: 'home' }">登出</MDBDropdownItem>
+
+            <MDBDropdownItem href="#" @click="logout()">登出</MDBDropdownItem>
           </MDBDropdownMenu>
         </MDBDropdown>
         <changePassword></changePassword>
@@ -87,13 +62,19 @@ import {
 } from "mdb-vue-ui-kit";
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
+import { useRouter } from "vue-router";
 const userStore = useUserStore();
 const dropdown = ref(false);
-const dropdown1 = ref(false);
+const router = useRouter();
+function logout() {
+  userStore.$reset();
+  router.replace({ path: "home" });
+}
 </script>
 <script>
 import changePassword from "../components/modal/changePassword.vue";
 import teacherAdmin from "../components/modal/teacher_admin.vue";
+import uploadFile from "../components/upload/upload.vue";
 export default {
   components: {
     changePassword,
@@ -102,28 +83,6 @@ export default {
   data: () => {
     return { modalShow: true, file: "" };
   },
-  methods: {
-    handleFileUpload: function () {
-      this.file = this.$refs.file.files[0];
-      console.log(this.$refs.file.files[0]);
-      const form = new FormData();
-      form.append("file", this.file);
-      this.$http
-        .post("/classImport", form, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((data) => {
-          alert(data.data[0].msg + "!");
-        })
-        .catch(function (error) {
-          const error_message = JSON.parse(error.response.data);
-          for (const [, value] of Object.entries(error_message)) {
-            alert(value);
-          }
-        });
-    },
-  },
+  methods: {},
 };
 </script>
