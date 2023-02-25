@@ -131,7 +131,7 @@
         <button
           type="button"
           class="btn btn-primary mx-auto col-auto"
-          @click="test"
+          @click="volunteerStore.saveVolunteerList()"
         >
           儲存
         </button>

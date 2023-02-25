@@ -1,5 +1,6 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { useUserStore } from "./user";
 
 // export const useVolunteerStore = defineStore('volunteer', () => {
 //   const count = ref(0)
@@ -21,18 +22,21 @@ export const useVolunteerStore = defineStore("volunteerList", {
       volunteerList: [],
       index: 0,
       selected: "",
-      test: 123,
     };
   },
   actions: {
     saveVolunteerList() {
-      // console.log("in");
-
-      // this.volunteerList.forEach((element) => console.log(element.id));
-      this.test * 2;
-    },
-    test(num) {
-      console.log(num);
+      const userStore = useUserStore();
+      const postVolunteerList = {};
+      const CIDArray = [];
+      const sequenceArray = [];
+      this.volunteerList.forEach((element, index) => {
+        CIDArray.push(element.C_ID);
+        sequenceArray.push(index);
+      });
+      postVolunteerList.teacher_id = userStore.teacherID;
+      postVolunteerList.C_ID = CIDArray;
+      postVolunteerList.sequence = sequenceArray;
     },
   },
 });
