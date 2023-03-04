@@ -4,7 +4,7 @@ import HelloWorld from "./components/HelloWorld.vue";
 </script>
 
 <template>
-  <RouterView />
+  <RouterView v-if="isRouterAlive" />
 </template>
 
 <style scoped>
@@ -17,3 +17,24 @@ import HelloWorld from "./components/HelloWorld.vue";
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 </style>
+<script>
+export default {
+  provide() {
+    return {
+      reload: this.reload,
+    };
+  },
+  data: () => {
+    return { isRouterAlive: true };
+  },
+  methods: {
+    reload() {
+      console.log("reload occure");
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        this.isRouterAlive = true;
+      });
+    },
+  },
+};
+</script>

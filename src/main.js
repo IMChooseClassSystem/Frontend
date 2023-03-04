@@ -1,6 +1,5 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { createVuetify } from "vuetify";
 
 import App from "./App.vue";
 import router from "./router";
@@ -18,7 +17,6 @@ import Select from "./layout/select.vue";
 const app = createApp(App);
 
 app.use(createPinia());
-app.use(createVuetify());
 
 app.component("Header", Header);
 app.component("Select", Select);

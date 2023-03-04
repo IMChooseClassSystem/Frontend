@@ -18,51 +18,25 @@
           ></button>
         </div>
         <div class="modal-body p-4">
-          <form action="" class="mb-4">
-            <div class="form-outline mb-4" style="">
-              <input
-                class="form-control"
-                type="password"
-                id="MDBInput-102844"
-              /><label class="form-label" for="MDBInput-102844"
-                >請輸入舊密碼</label
-              ><!----><!----><!----><!---->
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px"></div>
-                <div class="form-notch-middle" style="width: 92px"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-            <!----><!----><!----><!----><!----><!----><!----><!----><!---->
-            <div class="form-outline mb-4" style="">
-              <input
-                class="form-control"
-                type="password"
-                id="newPassword"
-              /><label class="form-label" for="newPassword"
-                >設定您的新密碼</label
-              ><!----><!----><!----><!---->
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px"></div>
-                <div class="form-notch-middle" style="width: 112px"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-            <div class="form-outline mb-4" style="">
-              <input
-                class="form-control"
-                type="password"
-                id="MDBInput-298797"
-              /><label class="form-label" for="MDBInput-298797"
-                >再次輸入新密碼</label
-              ><!----><!----><!----><!---->
-              <div class="form-notch">
-                <div class="form-notch-leading" style="width: 9px"></div>
-                <div class="form-notch-middle" style="width: 112px"></div>
-                <div class="form-notch-trailing"></div>
-              </div>
-            </div>
-          </form>
+          <MDBInput
+            label="請輸入舊密碼"
+            v-model="userStore.oldPassword"
+            class="mb-4"
+            @keydown.enter="userStore.changePassword()"
+          />
+          <MDBInput
+            label="設定您的新密碼"
+            v-model="userStore.newPassword"
+            class="mb-4"
+            @keydown.enter="userStore.changePassword()"
+          />
+          <MDBInput
+            label="再次輸入新密碼"
+            v-model="userStore.confirmNewPassword"
+            class="mb-4"
+            @keydown.enter="userStore.changePassword()"
+          />
+          <!----><!----><!----><!----><!----><!----><!----><!----><!---->
         </div>
         <div class="modal-footer">
           <button
@@ -72,9 +46,30 @@
           >
             關閉
           </button>
-          <button type="button" class="btn btn-primary">儲存變更</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="userStore.changePassword()"
+          >
+            儲存變更
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script setup>
+import { useUserStore } from "../../stores/user";
+import { MDBBtn, MDBInput } from "mdb-vue-ui-kit";
+const userStore = useUserStore();
+</script>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>

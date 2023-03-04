@@ -12,8 +12,10 @@
         教師授課意願系統
       </a>
       <div class="d-flex align-items-center">
+        <downloadFile></downloadFile>
         <uploadFile></uploadFile>
         <teacherAdmin></teacherAdmin>
+
         <MDBDropdown v-model="dropdown">
           <MDBDropdownToggle
             tag="a"
@@ -63,22 +65,31 @@ import {
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
 import { useRouter } from "vue-router";
+import { useVolunteerStore } from "../stores/Volunteer";
+import { useClassStore } from "../stores/class";
 const userStore = useUserStore();
+const volunteerStore = useVolunteerStore();
+const classStore = useClassStore();
 const dropdown = ref(false);
 const router = useRouter();
 function logout() {
   userStore.$reset();
+  volunteerStore.$reset();
+  classStore.$reset();
   router.replace({ path: "home" });
 }
 </script>
 <script>
 import changePassword from "../components/modal/changePassword.vue";
-import teacherAdmin from "../components/modal/teacher_admin.vue";
+import teacherAdmin from "../components/teacherAdmin/teacherAdmin.vue";
 import uploadFile from "../components/upload/upload.vue";
+import downloadFile from "../components/download/download.vue";
 export default {
   components: {
     changePassword,
     teacherAdmin,
+    uploadFile,
+    downloadFile,
   },
   data: () => {
     return { modalShow: true, file: "" };

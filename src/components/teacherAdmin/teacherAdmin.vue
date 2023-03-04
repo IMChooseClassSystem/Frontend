@@ -2,41 +2,33 @@
   <MDBDropdown
     v-model="dropdown1"
     v-show="userStore.permission == 0"
-    class="mx-2"
+    class="ms-2 me-4"
   >
     <MDBDropdownToggle size="sm" @click="dropdown1 = !dropdown1">
-      <MDBSpinner v-show="classStore.loading" tag="span" size="sm" />
-      匯入檔案
+      教師管理
     </MDBDropdownToggle>
-    <MDBDropdownMenu aria-labelledby="dropdownMenuButton">
-      <MDBDropdownItem href="#" @click="$refs.file.click()">
-        課程資料
+    <MDBDropdownMenu aria-labelledby="dropdownMenuButton"
+      ><MDBDropdownItem href="#createTeacher" data-bs-toggle="modal"
+        >新增教師</MDBDropdownItem
+      >
+      <MDBDropdownItem href="#editTeacherPassword" data-bs-toggle="modal"
+        >重設教師密碼
       </MDBDropdownItem>
-      <MDBDropdownItem href="#">最終授課資料</MDBDropdownItem>
     </MDBDropdownMenu>
   </MDBDropdown>
-
-  <input
-    ref="file"
-    type="file"
-    class="d-none"
-    v-on:change="
-      classStore.handleFileUpload($refs.file.files[0]);
-      $refs.file.value = null;
-    "
-  />
+  <createTeacher></createTeacher>
+  <editTeacherPassword></editTeacherPassword>
 </template>
 
 <script>
-import { MDBSpinner } from "mdb-vue-ui-kit";
+import createTeacher from "../modal/createTeacher.vue";
+import editTeacherPassword from "../modal/editTeacherPassword.vue";
 export default {
   inject: ["reload"],
   data: () => {
     return { modalShow: true, file: "", loading: false };
   },
-  components: {
-    MDBSpinner,
-  },
+  components: { createTeacher, editTeacherPassword },
   methods: {},
 };
 </script>

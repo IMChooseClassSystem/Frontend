@@ -22,20 +22,15 @@ const userStore = useUserStore();
 <script>
 import classTable from "/src/components/imSystem/class.vue";
 import volunteer from "../../components/imSystem/volunteer.vue";
-import moveUpDown from "../../components/imSystem/moveUpDown.vue";
+// import moveUpDown from "../../components/imSystem/moveUpDown.vue";
 export default {
   components: {
     classTable,
     volunteer,
-    moveUpDown,
+    // moveUpDown,
   },
   data: () => {
-    return {
-      title: "A1",
-      textA2: "A2",
-      dataFromChild: "",
-      dataFromGrandSon: "", //接收来自GrandSon的消息
-    };
+    return {};
   },
 };
 </script>

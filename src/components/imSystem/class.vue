@@ -6,7 +6,7 @@
         <button
           type="button"
           class="btn btn-success col-auto p-2 btn-sm"
-          @click="submitClass()"
+          @click="volunteerStore.addVolunteer()"
           v-show="!userStore.adminShow"
         >
           選擇課程
@@ -31,21 +31,66 @@
               </svg>
             </th>
             <th v-show="userStore.adminShow">#</th>
-            <th>修別</th>
+            <th
+              class="click text-primary"
+              @click="classStore.changeType('course_id')"
+            >
+              修別
+              <span
+                class="icon"
+                :class="{ inverse: classStore.isReverse }"
+                v-if="classStore.sortType == 'course_id'"
+              >
+                <i class="fas fa-angle-up text-success"></i>
+              </span>
+            </th>
             <th>系所</th>
-            <th>學制</th>
-            <th>年級</th>
+            <th
+              class="click text-primary"
+              @click="classStore.changeType('kind')"
+            >
+              學制<span
+                class="icon"
+                :class="{ inverse: classStore.isReverse }"
+                v-if="classStore.sortType == 'kind'"
+              >
+                <i class="fas fa-angle-up text-success"></i>
+              </span>
+            </th>
+            <th
+              class="click text-primary"
+              @click="classStore.changeType('getyear')"
+            >
+              班級<span
+                class="icon"
+                :class="{ inverse: classStore.isReverse }"
+                v-if="classStore.sortType == 'getyear'"
+              >
+                <i class="fas fa-angle-up text-success"></i>
+              </span>
+            </th>
             <th>課程名稱</th>
-            <th>學年/學期</th>
+            <th
+              class="click text-primary"
+              @click="classStore.changeType('kind_year_id')"
+            >
+              學年/學期<span
+                class="icon"
+                :class="{ inverse: classStore.isReverse }"
+                v-if="classStore.sortType == 'kind_year_id'"
+              >
+                <i class="fas fa-angle-up text-success"></i>
+              </span>
+            </th>
             <th>學分</th>
-            <th>時數(上課/實習)</th>
+            <th>時數<br />(上課/實習)</th>
             <th v-show="userStore.adminShow">教師列表</th>
             <th v-show="userStore.adminShow">操作</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="(item, key) in classStore.classList.slice(
+            v-for="(item, key) in classStore.courseData.slice(
               pageStart,
               pageStart + offset
             )"
@@ -57,20 +102,24 @@
                 class="form-check-input"
                 type="checkbox"
                 :value="item"
-                v-model="chosedClass"
+                v-model="volunteerStore.chosedClass"
               />
             </td>
             <td>{{ item.course }}</td>
             <td>{{ item.outkind }}</td>
-            <td>{{ item.kind }}</td>
-            <td>{{ item.getyear }}</td>
+            <td>{{ item.kind_name }}</td>
+            <td>{{ item.class_name }}</td>
             <td>{{ item.curriculum }}</td>
-            <td>{{ item.kindyear }}</td>
-            <td>{{ item.creditUP }}/{{ item.creditDN }}</td>
-            <td>{{ item.hourUP }}/{{ item.hourTUP }}</td>
-            <td v-show="userStore.adminShow"></td>
+            <td>{{ item.kind_year }}</td>
+            <td>{{ item.credit }}</td>
+            <td>{{ item.hour }}</td>
+            <td v-show="userStore.adminShow">{{ item.orderlistsequence }}</td>
             <td v-show="userStore.adminShow">
-              <button type="button" class="btn btn-outline-danger btn-sm">
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                @click="deleteCourse(item.C_ID, item.curriculum)"
+              >
                 刪除
               </button>
             </td>
@@ -79,10 +128,10 @@
       </MDBTable>
     </div>
     <paginate
-      v-model="page"
+      v-model="classStore.page"
       :page-count="classStore.totalPages"
       :page-range="10"
-      :click-handler="setPage(page)"
+      :click-handler="setPage(classStore.page)"
       :prev-text="'&laquo;'"
       :next-text="'&raquo;'"
       class="mx-auto"
@@ -95,24 +144,17 @@ import { MDBTable } from "mdb-vue-ui-kit";
 import { useClassStore } from "../../stores/class";
 import { useUserStore } from "../../stores/user";
 import { useVolunteerStore } from "../../stores/Volunteer";
-import axios from "axios";
 import { computed, ref } from "vue";
 import Paginate from "vuejs-paginate-next";
+import { inject } from "vue";
 const classStore = useClassStore();
 const userStore = useUserStore();
 const volunteerStore = useVolunteerStore();
 const currentPage = ref(1);
-const page = ref(1);
+
 const offset = 25;
-const chosedClass = ref([]);
-
-axios
-  .post("/classQuery")
-  .then((data) => {
-    classStore.classList = data.data;
-  })
-  .catch(function (error) {});
-
+const reload = inject("reload");
+classStore.getCourse();
 function setPage(idx) {
   currentPage.value = idx;
 }
@@ -120,13 +162,15 @@ function setPage(idx) {
 const pageStart = computed(() => {
   return (currentPage.value - 1) * offset;
 });
-function submitClass() {
-  for (var i = 0; i < chosedClass.value.length; i++) {
-    if (!volunteerStore.volunteerList.includes(chosedClass.value[i])) {
-      volunteerStore.volunteerList.push(chosedClass.value[i]);
-    }
+function deleteCourse(CID, className) {
+  var yes = confirm(`確定刪除 ${className} 此課程？`);
+
+  if (yes) {
+    classStore.deleteCourse(CID);
+    reload;
+  } else {
+    alert(`取消刪除 ${className} 此課程`);
   }
-  chosedClass.value = [];
 }
 </script>
 <script>
@@ -146,5 +190,15 @@ export default {
 } */
 .green {
   color: green;
+}
+.table th.click {
+  cursor: pointer;
+}
+
+.icon {
+  display: inline-block;
+}
+.icon.inverse {
+  transform: rotate(180deg);
 }
 </style>

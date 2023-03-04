@@ -28,6 +28,7 @@
             autofocus
             name="account"
             v-model="account"
+            @keyup.enter="submit"
           />
           <input
             type="password"
@@ -38,6 +39,7 @@
             required
             name="password"
             v-model="password"
+            @keyup.enter="submit"
           />
           <!-- <router-link :to="{ name: 'teacher' }"> User </router-link> -->
 
@@ -88,9 +90,7 @@ function submit() {
       // this.$router.push("/index");
     })
     .catch(function (error) {
-      if (error.response.data.error == "Unauthorized") {
-        alert("帳號或密碼錯誤!");
-      }
+      alert(error.response.data.message + "!");
     });
 }
 </script>

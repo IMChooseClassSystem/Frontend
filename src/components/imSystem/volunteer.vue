@@ -4,7 +4,7 @@
       <h3 class="text-center my-3">{{ msg }}</h3>
       <hr />
       <div class="row">
-        <MDBTable striped hover sm class="col text-center">
+        <MDBTable striped hover sm responsive class="col text-center">
           <thead>
             <tr>
               <th scope="col">
@@ -21,7 +21,7 @@
                   ></path>
                 </svg>
               </th>
-              <th scope="col">志願序</th>
+              <th scope="col">#</th>
               <th scope="col">修別</th>
               <th scope="col">系所</th>
               <th scope="col">學制</th>
@@ -29,7 +29,7 @@
               <th scope="col">課程名稱</th>
               <th scope="col">學年/學期</th>
               <th scope="col">學分</th>
-              <th scope="col">時數(上課/實習)</th>
+              <th scope="col">時數<br />(上課/實習)</th>
               <th scope="col">操作</th>
             </tr>
           </thead>
@@ -41,23 +41,32 @@
             <template #item="{ element, index }">
               <tr>
                 <td>
-                  <MDBBtn
+                  <!-- <MDBBtn
                     size="sm"
                     color="link"
                     @click="deleteVolunteer(index)"
                   >
                     <img src="../../assets/close.png" />
-                  </MDBBtn>
+                  </MDBBtn> -->
+                  <a
+                    href="#"
+                    role="button"
+                    size="sm"
+                    style="color: rgb(221, 75, 57)"
+                    @click="deleteVolunteer(index)"
+                  >
+                    <MDBIcon iconStyle="fas" icon="times" size="lg"></MDBIcon>
+                  </a>
                 </td>
                 <td scope="row">{{ index + 1 }}</td>
                 <td>{{ element.course }}</td>
                 <td>{{ element.outkind }}</td>
-                <td>{{ element.kind }}</td>
-                <td>{{ element.getyear }}</td>
+                <td>{{ element.kind_name }}</td>
+                <td>{{ element.class_name }}</td>
                 <td>{{ element.curriculum }}</td>
-                <td>{{ element.kindyear }}</td>
-                <td>{{ element.creditUP }}/{{ element.creditDN }}</td>
-                <td>{{ element.hourUP }}/{{ element.hourTUP }}</td>
+                <td>{{ element.kind_year }}</td>
+                <td>{{ element.credit }}</td>
+                <td>{{ element.hour }}</td>
                 <td>
                   <MDBBtn
                     size="sm"
@@ -84,7 +93,7 @@
         </MDBTable>
 
         <div class="row">
-          <p class="text-center">123</p>
+          <p class="text-center">{{ volunteerStore.creditTotal }}</p>
         </div>
         <hr class="opacity-25" />
         <div class="row mb-2">
@@ -95,6 +104,7 @@
             class="form-control col mx-4"
             id="otherClasses"
             rows="3"
+            v-model="volunteerStore.remark"
           ></textarea>
         </div>
         <hr />
@@ -107,7 +117,7 @@
               id="overclassY"
               value="1"
               name="overClassRadio"
-              checked=""
+              v-model="volunteerStore.overClass"
             />
             <label class="form-check-label me-4" for="flexRadioDefault1">
               是
@@ -120,6 +130,7 @@
               id="overclassN"
               name="overClassRadio"
               checked="checked"
+              v-model="volunteerStore.overClass"
             />
             <label class="form-check-label" for="flexRadioDefault2"> 否 </label>
           </div>
@@ -155,6 +166,7 @@
 import { MDBTable, MDBIcon, MDBBtn } from "mdb-vue-ui-kit";
 import { useVolunteerStore } from "../../stores/volunteer";
 const volunteerStore = useVolunteerStore();
+volunteerStore.getTeacherSequence();
 Array.prototype.move = function (from, to) {
   this.splice(to, 0, this.splice(from, 1)[0]);
   return this;
