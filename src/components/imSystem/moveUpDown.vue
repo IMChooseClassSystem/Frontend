@@ -18,7 +18,7 @@
 </template>
 <script setup>
 import { MDBBtn, MDBIcon } from "mdb-vue-ui-kit";
-import { useVolunteerStore } from "../../stores/volunteer";
+// import { useVolunteerStore } from "../../stores/volunteer";
 const volunteerStore = useVolunteerStore();
 Array.prototype.move = function (from, to) {
   this.splice(to, 0, this.splice(from, 1)[0]);
