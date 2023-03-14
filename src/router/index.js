@@ -15,7 +15,7 @@ const router = createRouter({
       path: "/",
       name: "Layout",
       component: Layout,
-      redirect: "/home",
+      redirect: "",
       children: [
         {
           path: "/index",
@@ -30,7 +30,7 @@ const router = createRouter({
       component: login,
     },
     {
-      path: "/home",
+      path: "",
       name: "home",
       component: home,
     },
