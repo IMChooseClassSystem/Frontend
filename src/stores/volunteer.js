@@ -38,55 +38,66 @@ export const useVolunteerStore = defineStore("volunteerList", {
       const postVolunteerList = {};
       const CIDArray = [];
       const sequenceArray = [];
-      this.volunteerList.forEach((element, index) => {
-        CIDArray.push(element.C_ID);
-        sequenceArray.push(index + 1);
-      });
-      postVolunteerList.teacher_id = userStore.teacherID;
-      postVolunteerList.C_ID = CIDArray;
-      postVolunteerList.sequence = sequenceArray;
+      if (this.volunteerList.length == 0) {
+        postVolunteerList.teacher_ID = userStore.teacherID;
+      } else {
+        this.volunteerList.forEach((element, index) => {
+          CIDArray.push(element.C_ID);
+          sequenceArray.push(index + 1);
+        });
+
+        postVolunteerList.teacher_ID = userStore.teacherID;
+        postVolunteerList.C_ID = CIDArray;
+        postVolunteerList.sequence = sequenceArray;
+      }
+
       await axios
-        .post("/addSequence", postVolunteerList)
+        .post("http://163.17.135.4:8000/api/addSequence", postVolunteerList)
         .then((data) => {
           if (data.data.message == "Sequence added successfully") {
           }
+          alert(data.data.message + "!");
         })
         .catch(function (error) {
-          const error_message = JSON.parse(error.response.data);
-          for (const [, value] of Object.entries(error_message)) {
-            alert(value);
-          }
+          alert(error.response.data.message);
         });
       await axios
-        .post("/addRemark", {
+        .post("http://163.17.135.4:8000/api/addRemark", {
           teacher_ID: userStore.teacherID,
           remark: this.remark,
           over_class: this.overClass,
         })
         .then((data) => {
-          if (data.data.message == "Remark successfully added") {
-            alert("儲存成功!");
-          }
+          // alert(data.data.message + "!");
+          // if (data.data.message == "Remark successfully added") {
+          //   alert("儲存成功!");
+          // }
         })
         .catch((error) => {
           console.log(error);
+          alert(error.response.data.message);
         });
     },
     async getTeacherSequence() {
       const userStore = useUserStore();
       await axios
-        .post("/sequenceQuery", { teacher_id: userStore.teacherID })
+        .post("http://163.17.135.4:8000/api/sequenceQuery", {
+          teacher_ID: userStore.teacherID,
+        })
         .then((data) => {
           this.volunteerList = data.data;
         })
         .catch((error) => {
           console.log(error);
+          alert(error.response.data.message);
         });
       this.volunteerList.forEach((element) => {
         this.volunteerCIDList.push(element.C_ID);
       });
       await axios
-        .post("/remarkQuery", { teacher_ID: userStore.teacherID })
+        .post("http://163.17.135.4:8000/api/remarkQuery", {
+          teacher_ID: userStore.teacherID,
+        })
         .then((data) => {
           if (data.data != "") {
             this.remark = data.data[0].remark;
@@ -95,6 +106,7 @@ export const useVolunteerStore = defineStore("volunteerList", {
         })
         .catch((error) => {
           console.log(error);
+          alert(error.response.data.message);
         });
     },
     addVolunteer() {

@@ -32,7 +32,7 @@ export const useClassStore = defineStore("classList", {
     async getCourse() {
       const userStore = useUserStore();
       await axios
-        .post("/classQuery", {
+        .post("http://163.17.135.4:8000/api/classQuery", {
           permission: userStore.permission,
           kind: this.kind,
           getyear: this.year,
@@ -40,20 +40,19 @@ export const useClassStore = defineStore("classList", {
         .then((data) => {
           this.courseList = data.data;
         })
-        .catch(function (error) {});
+        .catch(function (error) {
+          alert(error.response.data.message);
+        });
     },
     async getClassQuery() {
       axios
-        .post("/classListQuery")
+        .post("http://163.17.135.4:8000/api/classListQuery")
         .then((data) => {
           this.classQueryList = data.data;
           this.kindList = data.data[0].content;
         })
         .catch(function (error) {
-          const error_message = JSON.parse(error.response.data);
-          for (const [, value] of Object.entries(error_message)) {
-            alert(value);
-          }
+          alert(error.response.data.message);
         });
     },
     setClass() {
@@ -82,19 +81,21 @@ export const useClassStore = defineStore("classList", {
     },
     deleteCourse(CID) {
       axios
-        .delete(`/deleteClass?C_ID=${CID}`)
+        .delete(`http://163.17.135.4:8000/api/deleteClass?C_ID=${CID}`)
         .then((data) => {
           alert(data.data.message + "!");
           this.getCourse();
         })
-        .catch(function (error) {});
+        .catch(function (error) {
+          alert(error.response.data.message);
+        });
     },
-    handleFileUpload(file) {
+    handleClassFileUpload(file) {
       this.loading = true;
       const form = new FormData();
       form.append("file", file);
       axios
-        .post("/classImport", form, {
+        .post("http://163.17.135.4:8000/api/classImport", form, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -107,6 +108,28 @@ export const useClassStore = defineStore("classList", {
         .catch((error) => {
           this.loading = false;
           console.log(error);
+          alert(error.response.data.message);
+        });
+    },
+    handleFinalFileUpload(file) {
+      this.loading = true;
+      const form = new FormData();
+      form.append("file", file);
+      axios
+        .post("http://163.17.135.4:8000/api/finalImport", form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((data) => {
+          this.loading = false;
+          alert(data.data.message + "!");
+          this.getCourse();
+        })
+        .catch((error) => {
+          this.loading = false;
+          console.log(error.response.data.message);
+          alert(error.response.data.message);
         });
     },
   },

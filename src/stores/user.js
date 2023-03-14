@@ -28,7 +28,7 @@ export const useUserStore = defineStore("user", {
     changePassword() {
       axios
         .post(
-          "/teacher/updatePassword",
+          "http://163.17.135.4:8000/api/teacher/updatePassword",
           {
             password: this.oldPassword,
             new_password: this.newPassword,

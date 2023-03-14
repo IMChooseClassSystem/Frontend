@@ -74,7 +74,7 @@ const password = ref("");
 // const emit = defineEmits(["update:account", "update:password"]);
 function submit() {
   axios
-    .post("/teacher/login", {
+    .post("http://163.17.135.4:8000/api/teacher/login", {
       account: account.value,
       password: password.value,
     })

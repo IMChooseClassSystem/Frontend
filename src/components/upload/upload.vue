@@ -9,20 +9,31 @@
       匯入檔案
     </MDBDropdownToggle>
     <MDBDropdownMenu aria-labelledby="dropdownMenuButton">
-      <MDBDropdownItem href="#" @click="$refs.file.click()">
+      <MDBDropdownItem href="#" @click="$refs.classfile.click()">
         課程資料
       </MDBDropdownItem>
-      <MDBDropdownItem href="#">最終授課資料</MDBDropdownItem>
+      <MDBDropdownItem href="#" @click="$refs.finalfile.click()"
+        >最終授課資料</MDBDropdownItem
+      >
     </MDBDropdownMenu>
   </MDBDropdown>
 
   <input
-    ref="file"
+    ref="classfile"
     type="file"
     class="d-none"
     v-on:change="
-      classStore.handleFileUpload($refs.file.files[0]);
-      $refs.file.value = null;
+      classStore.handleClassFileUpload($refs.classfile.files[0]);
+      $refs.classfile.value = null;
+    "
+  />
+  <input
+    ref="finalfile"
+    type="file"
+    class="d-none"
+    v-on:change="
+      classStore.handleFinalFileUpload($refs.finalfile.files[0]);
+      $refs.finalfile.value = null;
     "
   />
 </template>

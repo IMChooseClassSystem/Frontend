@@ -39,6 +39,7 @@
           <select
             class="form-select mt-4"
             v-model="permission"
+            v-show="false"
             @keydown.enter="addTeacher()"
           >
             <option value="none" selected disabled>系統權限</option>
@@ -83,7 +84,7 @@ export default {
         this.permission = 1;
       }
       this.$http
-        .post("/teacher/register", {
+        .post("http://163.17.135.4:8000/api/teacher/register", {
           account: this.teacherAccount,
           password: this.teacherPassword,
           name: this.teacherName,
