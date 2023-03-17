@@ -144,7 +144,9 @@ export const useClassStore = defineStore("classList", {
         .then((data) => {
           this.courseList = data.data;
           const result = this.courseList.filter((element) => {
-            return element.curriculum.includes(this.search.toUpperCase());
+            return element.curriculum
+              .toUpperCase()
+              .includes(this.search.toUpperCase());
           });
           this.courseList = result;
         });
