@@ -14,7 +14,7 @@
       <div class="d-flex align-items-center">
         <downloadFile></downloadFile>
         <uploadFile></uploadFile>
-        <teacherAdmin></teacherAdmin>
+        <systemAdmin></systemAdmin>
 
         <MDBDropdown v-model="dropdown">
           <MDBDropdownToggle
@@ -81,13 +81,13 @@ function logout() {
 </script>
 <script>
 import changePassword from "../components/modal/changePassword.vue";
-import teacherAdmin from "../components/teacherAdmin/teacherAdmin.vue";
+import systemAdmin from "../components/systemAdmin/systemAdmin.vue";
 import uploadFile from "../components/upload/upload.vue";
 import downloadFile from "../components/download/download.vue";
 export default {
   components: {
     changePassword,
-    teacherAdmin,
+    systemAdmin,
     uploadFile,
     downloadFile,
   },

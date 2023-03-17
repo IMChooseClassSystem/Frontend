@@ -22,6 +22,7 @@ export const useUserStore = defineStore("user", {
       oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
+      changePasswordClose: ref(null),
     };
   },
   actions: {
@@ -45,8 +46,10 @@ export const useUserStore = defineStore("user", {
           this.oldPassword = "";
           this.newPassword = "";
           this.confirmNewPassword = "";
+          this.changePasswordClose.click();
         })
         .catch(function (error) {
+          console.log(error);
           alert(error.response.data.message);
         });
     },

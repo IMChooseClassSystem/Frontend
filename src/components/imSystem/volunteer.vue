@@ -98,7 +98,7 @@
         <hr class="opacity-25" />
         <div class="row mb-2">
           <p class="col-auto my-auto ms-4">
-            是否於外系授課 <br />請寫下外系課程
+            是否於外系授課 <br />請寫下外系課程<br />( 課程 - 班級 - 時數 )
           </p>
           <textarea
             class="form-control col mx-4"

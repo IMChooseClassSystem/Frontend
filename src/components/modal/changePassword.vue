@@ -22,19 +22,19 @@
             label="請輸入舊密碼"
             v-model="userStore.oldPassword"
             class="mb-4"
-            @keydown.enter="userStore.changePassword()"
+            @keydown.enter="changePassword()"
           />
           <MDBInput
             label="設定您的新密碼"
             v-model="userStore.newPassword"
             class="mb-4"
-            @keydown.enter="userStore.changePassword()"
+            @keydown.enter="changePassword()"
           />
           <MDBInput
             label="再次輸入新密碼"
             v-model="userStore.confirmNewPassword"
             class="mb-4"
-            @keydown.enter="userStore.changePassword()"
+            @keydown.enter="changePassword()"
           />
           <!----><!----><!----><!----><!----><!----><!----><!----><!---->
         </div>
@@ -43,13 +43,14 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            ref="Close"
           >
             關閉
           </button>
           <button
             type="button"
             class="btn btn-primary"
-            @click="userStore.changePassword()"
+            @click="changePassword()"
           >
             儲存變更
           </button>
@@ -61,11 +62,40 @@
 <script setup>
 import { useUserStore } from "../../stores/user";
 import { MDBBtn, MDBInput } from "mdb-vue-ui-kit";
+import { ref } from "vue";
+import axios from "axios";
 const userStore = useUserStore();
+const Close = ref(null);
+function changePassword() {
+  axios
+    .post(
+      "http://163.17.135.4:8000/api/teacher/updatePassword",
+      {
+        password: userStore.oldPassword,
+        new_password: userStore.newPassword,
+        confirm_new_password: userStore.confirmNewPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${userStore.token}`,
+        },
+      }
+    )
+    .then((data) => {
+      alert(data.data.message + "!");
+      userStore.oldPassword = "";
+      userStore.newPassword = "";
+      userStore.confirmNewPassword = "";
+      Close.value.click();
+    })
+    .catch(function (error) {
+      console.log(error);
+      alert(error.response.data.message);
+    });
+}
 </script>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {};
