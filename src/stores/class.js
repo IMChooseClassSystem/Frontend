@@ -15,6 +15,7 @@ export const useClassStore = defineStore("classList", {
       year: -1,
       loading: false,
       page: 1,
+      search: "",
     };
   },
   getters: {
@@ -130,6 +131,22 @@ export const useClassStore = defineStore("classList", {
           this.loading = false;
           console.log(error.response.data.message);
           alert(error.response.data.message);
+        });
+    },
+    searchClass() {
+      const userStore = useUserStore();
+      axios
+        .post("http://163.17.135.4:8000/api/classQuery", {
+          permission: userStore.permission,
+          kind: -1,
+          getyear: -1,
+        })
+        .then((data) => {
+          this.courseList = data.data;
+          const result = this.courseList.filter((element) => {
+            return element.curriculum.includes(this.search.toUpperCase());
+          });
+          this.courseList = result;
         });
     },
   },
