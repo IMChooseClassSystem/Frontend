@@ -39,7 +39,7 @@ const router = createRouter({
 
 router.beforeResolve((to) => {
   const userStore = useUserStore();
-  if (to.name == "index" && userStore.token == "") {
+  if (to.name == "index" && sessionStorage.getItem("token") == null) {
     return { name: "login" };
   } else {
     return true;

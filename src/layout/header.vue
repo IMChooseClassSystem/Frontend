@@ -77,6 +77,7 @@ function logout() {
   volunteerStore.$reset();
   classStore.$reset();
   router.replace({ path: "" });
+  sessionStorage.clear();
 }
 </script>
 <script>

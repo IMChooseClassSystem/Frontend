@@ -14,16 +14,26 @@ import axios from "axios";
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      token: "",
-      username: "",
-      permission: 0,
-      teacherID: 0,
       adminShow: true,
       oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
       changePasswordClose: ref(null),
     };
+  },
+  getters: {
+    token() {
+      return sessionStorage.getItem("token");
+    },
+    username() {
+      return sessionStorage.getItem("username");
+    },
+    teacherID() {
+      return sessionStorage.getItem("teacherID");
+    },
+    permission() {
+      return sessionStorage.getItem("permission");
+    },
   },
   actions: {
     changePassword() {

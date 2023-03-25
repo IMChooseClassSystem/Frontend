@@ -79,10 +79,10 @@ function submit() {
       password: password.value,
     })
     .then((data) => {
-      userStore.token = data.data.access_token;
-      userStore.username = data.data.user.name;
-      userStore.permission = data.data.user.permission;
-      userStore.teacherID = data.data.user.id;
+      sessionStorage.setItem("token", data.data.access_token);
+      sessionStorage.setItem("permission", data.data.user.permission);
+      sessionStorage.setItem("teacherID", data.data.user.id);
+      sessionStorage.setItem("username", data.data.user.name);
       if (data.data.user.permission == "1") {
         userStore.adminShow = false;
       }
@@ -90,6 +90,7 @@ function submit() {
       // this.$router.push("/index");
     })
     .catch(function (error) {
+      console.log(error);
       alert(error.response.data.message + "!");
     });
 }
