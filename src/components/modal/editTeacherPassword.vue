@@ -78,7 +78,7 @@ const Close = ref(null);
 function resetPassword() {
   axios
     .post(
-      "http://163.17.135.4:8000/api/teacher/resetPassword",
+      "http://163.17.135.4:443/api/teacher/resetPassword",
       {
         account: teacherAccount.value,
         name: teacherName.value,

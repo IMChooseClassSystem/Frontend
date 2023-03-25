@@ -52,7 +52,7 @@ export const useVolunteerStore = defineStore("volunteerList", {
       }
 
       await axios
-        .post("http://163.17.135.4:8000/api/addSequence", postVolunteerList)
+        .post("http://163.17.135.4:443/api/addSequence", postVolunteerList)
         .then((data) => {
           if (data.data.message == "Sequence added successfully") {
           }
@@ -62,7 +62,7 @@ export const useVolunteerStore = defineStore("volunteerList", {
           alert(error.response.data.message);
         });
       await axios
-        .post("http://163.17.135.4:8000/api/addRemark", {
+        .post("http://163.17.135.4:443/api/addRemark", {
           teacher_ID: userStore.teacherID,
           remark: this.remark,
           over_class: this.overClass,
@@ -81,7 +81,7 @@ export const useVolunteerStore = defineStore("volunteerList", {
     async getTeacherSequence() {
       const userStore = useUserStore();
       await axios
-        .post("http://163.17.135.4:8000/api/sequenceQuery", {
+        .post("http://163.17.135.4:443/api/sequenceQuery", {
           teacher_ID: userStore.teacherID,
         })
         .then((data) => {
@@ -95,7 +95,7 @@ export const useVolunteerStore = defineStore("volunteerList", {
         this.volunteerCIDList.push(element.C_ID);
       });
       await axios
-        .post("http://163.17.135.4:8000/api/remarkQuery", {
+        .post("http://163.17.135.4:443/api/remarkQuery", {
           teacher_ID: userStore.teacherID,
         })
         .then((data) => {

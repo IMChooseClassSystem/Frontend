@@ -55,7 +55,7 @@ const dropdown1 = ref(false);
 
 function downloadSequence() {
   axios({
-    url: "http://163.17.135.4:8000/api/classExport", // File URL Goes Here
+    url: "http://163.17.135.4:443/api/classExport", // File URL Goes Here
     method: "GET",
     responseType: "blob",
   }).then((res) => {
@@ -69,7 +69,7 @@ function downloadSequence() {
 }
 function downloadRemark() {
   axios({
-    url: "http://163.17.135.4:8000/api/remarkExport", // File URL Goes Here
+    url: "http://163.17.135.4:443/api/remarkExport", // File URL Goes Here
     method: "GET",
     responseType: "blob",
   }).then((res) => {
@@ -83,7 +83,7 @@ function downloadRemark() {
 }
 function downloadTeacher() {
   axios({
-    url: "http://163.17.135.4:8000/api/teacherExport", // File URL Goes Here
+    url: "http://163.17.135.4:443/api/teacherExport", // File URL Goes Here
     method: "GET",
     responseType: "blob",
   }).then((res) => {

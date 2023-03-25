@@ -69,7 +69,7 @@ const Close = ref(null);
 function changePassword() {
   axios
     .post(
-      "http://163.17.135.4:8000/api/teacher/updatePassword",
+      "http://163.17.135.4:443/api/teacher/updatePassword",
       {
         password: userStore.oldPassword,
         new_password: userStore.newPassword,

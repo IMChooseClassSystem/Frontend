@@ -61,7 +61,7 @@ function resetOrder() {
 
   if (yes) {
     axios
-      .delete("http://163.17.135.4:8000/api/teacher/resetOrder", {
+      .delete("http://163.17.135.4:443/api/teacher/resetOrder", {
         headers: {
           Authorization: `Bearer ${userStore.token}`,
         },

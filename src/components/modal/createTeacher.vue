@@ -84,7 +84,7 @@ export default {
         this.permission = 1;
       }
       this.$http
-        .post("http://163.17.135.4:8000/api/teacher/register", {
+        .post("http://163.17.135.4:443/api/teacher/register", {
           account: this.teacherAccount,
           password: this.teacherPassword,
           name: this.teacherName,

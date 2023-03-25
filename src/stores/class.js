@@ -33,7 +33,7 @@ export const useClassStore = defineStore("classList", {
     async getCourse() {
       const userStore = useUserStore();
       await axios
-        .post("http://163.17.135.4:8000/api/classQuery", {
+        .post("http://163.17.135.4:443/api/classQuery", {
           permission: userStore.permission,
           kind: this.kind,
           getyear: this.year,
@@ -47,7 +47,7 @@ export const useClassStore = defineStore("classList", {
     },
     async getClassQuery() {
       axios
-        .post("http://163.17.135.4:8000/api/classListQuery")
+        .post("http://163.17.135.4:443/api/classListQuery")
         .then((data) => {
           this.classQueryList = data.data;
           this.kindList = data.data[0].content;
@@ -82,7 +82,7 @@ export const useClassStore = defineStore("classList", {
     },
     deleteCourse(CID) {
       axios
-        .delete(`http://163.17.135.4:8000/api/deleteClass?C_ID=${CID}`)
+        .delete(`http://163.17.135.4:443/api/deleteClass?C_ID=${CID}`)
         .then((data) => {
           alert(data.data.message + "!");
           this.getCourse();
@@ -96,7 +96,7 @@ export const useClassStore = defineStore("classList", {
       const form = new FormData();
       form.append("file", file);
       axios
-        .post("http://163.17.135.4:8000/api/classImport", form, {
+        .post("http://163.17.135.4:443/api/classImport", form, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -117,7 +117,7 @@ export const useClassStore = defineStore("classList", {
       const form = new FormData();
       form.append("file", file);
       axios
-        .post("http://163.17.135.4:8000/api/finalImport", form, {
+        .post("http://163.17.135.4:443/api/finalImport", form, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -136,7 +136,7 @@ export const useClassStore = defineStore("classList", {
     searchClass() {
       const userStore = useUserStore();
       axios
-        .post("http://163.17.135.4:8000/api/classQuery", {
+        .post("http://163.17.135.4:443/api/classQuery", {
           permission: userStore.permission,
           kind: -1,
           getyear: -1,

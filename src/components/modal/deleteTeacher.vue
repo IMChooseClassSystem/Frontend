@@ -81,7 +81,7 @@ function deleteTeacher() {
   if (yes) {
     axios
       .post(
-        "http://163.17.135.4:8000/api/teacher/deleteTeacher",
+        "http://163.17.135.4:443/api/teacher/deleteTeacher",
         {
           account: teacherAccount.value,
           name: teacherName.value,
