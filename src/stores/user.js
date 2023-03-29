@@ -23,16 +23,16 @@ export const useUserStore = defineStore("user", {
   },
   getters: {
     token() {
-      return sessionStorage.getItem("token");
+      return localStorage.getItem("token");
     },
     username() {
-      return sessionStorage.getItem("username");
+      return localStorage.getItem("username");
     },
     teacherID() {
-      return sessionStorage.getItem("teacherID");
+      return localStorage.getItem("teacherID");
     },
     permission() {
-      return sessionStorage.getItem("permission");
+      return localStorage.getItem("permission");
     },
   },
   actions: {

@@ -76,8 +76,10 @@ function logout() {
   userStore.$reset();
   volunteerStore.$reset();
   classStore.$reset();
-  router.replace({ path: "" });
-  sessionStorage.clear();
+  localStorage.clear();
+  // router.replace({ path: "" });
+  router.go({ path: "" });
+  // console.log(localStorage);
 }
 </script>
 <script>

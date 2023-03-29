@@ -79,10 +79,10 @@ function submit() {
       password: password.value,
     })
     .then((data) => {
-      sessionStorage.setItem("token", data.data.access_token);
-      sessionStorage.setItem("permission", data.data.user.permission);
-      sessionStorage.setItem("teacherID", data.data.user.id);
-      sessionStorage.setItem("username", data.data.user.name);
+      localStorage.setItem("token", data.data.access_token);
+      localStorage.setItem("permission", data.data.user.permission);
+      localStorage.setItem("teacherID", data.data.user.id);
+      localStorage.setItem("username", data.data.user.name);
       if (data.data.user.permission == "1") {
         userStore.adminShow = false;
       }
