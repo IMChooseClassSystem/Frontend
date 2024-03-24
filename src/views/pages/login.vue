@@ -84,7 +84,9 @@ function submit() {
       localStorage.setItem("teacherID", data.data.user.id);
       localStorage.setItem("username", data.data.user.name);
       if (data.data.user.permission == "1") {
-        userStore.adminShow = false;
+        localStorage.setItem("isShow", false);
+      } else {
+        localStorage.setItem("isShow", true);
       }
       router.push({ path: "index" });
       // this.$router.push("/index");

@@ -14,7 +14,7 @@ import axios from "axios";
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      adminShow: true,
+      isShow: true,
       oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
@@ -33,6 +33,13 @@ export const useUserStore = defineStore("user", {
     },
     permission() {
       return localStorage.getItem("permission");
+    },
+    adminShow() {
+      if (localStorage.getItem("permission") === "1") {
+        return false;
+      } else {
+        return this.isShow;
+      }
     },
   },
   actions: {

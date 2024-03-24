@@ -26,13 +26,13 @@
           <MDBDropdownMenu
             ><MDBDropdownItem
               href="#"
-              @click="userStore.adminShow = false"
+              @click="userStore.isShow = !userStore.isShow"
               v-show="(userStore.permission == 0) & userStore.adminShow"
               >切換教師畫面</MDBDropdownItem
             >
             <MDBDropdownItem
               href="#"
-              @click="userStore.adminShow = true"
+              @click="userStore.isShow = !userStore.isShow"
               v-show="(userStore.permission == 0) & !userStore.adminShow"
               >切換管理畫面</MDBDropdownItem
             >
